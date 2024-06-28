@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "personal-investment-tracker": {
+    "investment-tracker": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/personal-investment-tracker",
+            "outputPath": "dist/investment-tracker",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "personal-investment-tracker:build:production"
+              "buildTarget": "investment-tracker:build:production"
             },
             "development": {
-              "buildTarget": "personal-investment-tracker:build:development"
+              "buildTarget": "investment-tracker:build:development"
             }
           },
           "defaultConfiguration": "development"
