@@ -1,25 +1,47 @@
 <div class="flex justify-content-center align-items-center h-screen">
-    <div class="card sm:col-12 md:col-4">
-        <div class="card-header">Login</div>
-        <form
-          class="flex-column justify-content-center align-items-center gap-5 flex"
-          [formGroup]="loginForm"
-        >
-          <p-floatLabel>
-            <input id="email" type="email" pInputText formControlName="email" />
-            <label for="email">Email</label>
-          </p-floatLabel>
-          <p-floatLabel>
-            <input
-              id="password"
-              type="password"
-              pInputText
-              formControlName="password"
-            />
-            <label for="password">Password</label>
-          </p-floatLabel>
-      
-          <p-button label="Submit" />
-        </form>
+  <div class="card sm:col-12 md:col-4">
+    <div class="card-header">Login</div>
+    <form
+      class="flex-column justify-content-center align-items-center gap-5 flex"
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
+    >
+      <div class="flex flex-column gap-1">
+        <p-floatLabel>
+          <input
+            id="email"
+            type="email"
+            required
+            pInputText
+            formControlName="email"
+          />
+          <label for="email">Email</label>
+        </p-floatLabel>
+        @if (loginFormControl.email.errors && (loginFormControl.email.dirty ||
+        loginFormControl.email.touched)) {
+        <div class="error">Email is required.</div>
+        }
       </div>
+      <div class="flex flex-column gap-1">
+        <p-floatLabel>
+          <input
+            id="password"
+            type="password"
+            pInputText
+            formControlName="password"
+            required
+          />
+          <label for="password">Password</label>
+        </p-floatLabel>
+        @if ((loginFormControl.password.errors &&
+        (loginFormControl.password.dirty || loginFormControl.password.touched))
+        || passwordError.state) { @if (passwordError.state){
+        <div class="error" [textContent]="passwordError.msg"></div>
+        }@else{
+        <div class="error">Password is required.</div>
+        } }
+      </div>
+      <p-button [disabled]="loginForm.invalid" type="Submit" label="Submit" />
+    </form>
+  </div>
 </div>

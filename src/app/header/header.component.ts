@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { HeaderComponent } from '../header/header.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
-  selector: 'app-home',
+  selector: 'header',
   standalone: true,
-  imports: [HeaderComponent],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  imports: [ButtonModule],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss'
 })
-export class HomeComponent {
+export class HeaderComponent {
+
   constructor(private authService: AuthService){
 
   }

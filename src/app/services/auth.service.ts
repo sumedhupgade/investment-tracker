@@ -31,10 +31,9 @@ export class AuthService {
   userSubscription!: Subscription;
   constructor(private router: Router) {
     const auth = getAuth(app);
-    this.userSubscription = this.user$.subscribe((aUser: User | null) => {
+    this.userSubscription = this.user$.subscribe((aUser: User | null) => {      
       if (aUser == null) {
         this.router.navigate([''])
-        // this.loginWithIdPassword('sumedh225109@gmail.com', 'SumedhPass@062024');
       } else {
         this.router.navigate(['home']);
       }
@@ -46,17 +45,8 @@ export class AuthService {
     this.router.navigate(['']);
   }
 
-  loginWithIdPassword(email: string, password: string) {
-    signInWithEmailAndPassword(this.auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
+  loginWithIdPassword(cred:{email: string, password: string}) {
+    return signInWithEmailAndPassword(this.auth, cred.email, cred.password) 
   }
 
   SignUpWithIdPassword(email: string, password: string) {

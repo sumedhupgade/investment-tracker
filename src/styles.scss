@@ -10,7 +10,7 @@ body {
     font-family: var(--font-family);
     font-weight: normal;
     background: var(--surface-ground);
-    color: var(--text-color);
+    color: #000;
     padding: 0rem;
     margin: 0;
     -webkit-font-smoothing: antialiased;
@@ -19,7 +19,6 @@ body {
 
 .card {
     background: var(--surface-card);
-    padding: 2rem;
+    padding: 2rem !important;
     border-radius: 10px;
-    margin-bottom: 1rem;
 }
