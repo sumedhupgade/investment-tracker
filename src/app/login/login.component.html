@@ -1,1 +1,25 @@
-<p>login works!</p>
+<div class="flex justify-content-center align-items-center h-screen">
+    <div class="card sm:col-12 md:col-4">
+        <div class="card-header">Login</div>
+        <form
+          class="flex-column justify-content-center align-items-center gap-5 flex"
+          [formGroup]="loginForm"
+        >
+          <p-floatLabel>
+            <input id="email" type="email" pInputText formControlName="email" />
+            <label for="email">Email</label>
+          </p-floatLabel>
+          <p-floatLabel>
+            <input
+              id="password"
+              type="password"
+              pInputText
+              formControlName="password"
+            />
+            <label for="password">Password</label>
+          </p-floatLabel>
+      
+          <p-button label="Submit" />
+        </form>
+      </div>
+</div>
