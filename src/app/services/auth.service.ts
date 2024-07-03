@@ -1,4 +1,4 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { EventEmitter, Injectable, computed, effect, inject, signal } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { Auth, User, user } from '@angular/fire/auth';
@@ -36,10 +36,16 @@ export class AuthService {
   currentUser = signal({});
   userData = signal({} || object<any>)
   readonly userDetails = this.currentUser.asReadonly()
-
+  loading : Array<boolean> = []
+  loadingStart = new EventEmitter()
+  _that = this
   constructor(private router: Router) {
     const auth = getAuth(app);
+  this.setLoader(true)
     this.userSubscription = this.user$.subscribe((aUser: User | null) => {
+      console.log(aUser);
+      
+      this.setLoader(false)
       if (aUser == null) {
         this.router.navigate(['']);
       } else {
@@ -69,12 +75,16 @@ export class AuthService {
   }
 
   async checkIfUserIdExist(user: any) {
+    this.setLoader(true)
     const docRef = doc(db, 'users', this.userInfo.uid);
     const docSnap = getDoc(docRef);
 
     if ((await docSnap).exists()) {
       // console.log('Document data:', (await docSnap).data());
-      this.getUserData();
+      const unsub = onSnapshot(doc(db, 'users', this.userInfo.uid), (doc) => {
+        this.userData.set(doc.data())
+        this.setLoader(false)
+      });
     } else {
       this.setNewUserConfig();
     }
@@ -85,12 +95,11 @@ export class AuthService {
   })
 
   getUserData() {
-    const unsub = onSnapshot(doc(db, 'users', this.userInfo.uid), (doc) => {
-      this.userData.set(doc.data())
-    });
+    
   }
 
   setNewUserConfig() {
+    this.setLoader(true)
     setDoc(doc(db, 'users', this.userInfo.uid), {
       mail: this.userInfo.email,
       name: this.userInfo.name,
@@ -103,10 +112,20 @@ export class AuthService {
         },
       },
     });
+    this.setLoader(false)
   }
 
   signOut() {
     this.auth.signOut();
     this.router.navigate(['']);
+  }
+
+  setLoader(state: boolean){
+    if (state) {
+      this.loading.push(true)
+    } else {
+      this.loading.pop()
+    }
+    this.loadingStart.emit(this.loading)
   }
 }

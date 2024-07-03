@@ -22,3 +22,21 @@ body {
     padding: 2rem !important;
     border-radius: 10px;
 }
+
+.parent-container{
+    height: calc(100vh - 33px);
+    padding: 20px 15px;
+}
+
+.p-card{
+    color: #000;
+
+    .card-title{
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .p-card-content{
+        padding: 0px;
+    }
+}
