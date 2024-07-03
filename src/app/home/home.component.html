@@ -3,7 +3,7 @@
 <div class="parent-container">
   <p-card>
     <ng-template pTemplate="header">
-      <div class="flex align-items-center p-4 justify-content-between">
+      <div class="flex align-items-center p-4 pb-0 justify-content-between">
         <span class="card-title">Investment Summary</span>
         <p-dropdown
           [options]="years"
@@ -20,7 +20,7 @@
         </p>
     }@else {
 
-        <p>Nothing to show</p>
+        <div class="empty-state">No Data for selected year</div>
     }
   </p-card>
 </div>
