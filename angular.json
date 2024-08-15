@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "investment-tracker": {
+    "house-expense-tracker": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/investment-tracker",
+            "outputPath": "dist/house-expense-tracker",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "investment-tracker:build:production"
+              "buildTarget": "house-expense-tracker:build:production"
             },
             "development": {
-              "buildTarget": "investment-tracker:build:development"
+              "buildTarget": "house-expense-tracker:build:development"
             }
           },
           "defaultConfiguration": "development"

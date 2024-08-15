@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, effect, } from '@
 import { AuthService } from '../services/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'header',
@@ -13,7 +14,7 @@ import { MenuModule } from 'primeng/menu';
 })
 export class HeaderComponent implements OnInit {
 
-  user:any = JSON.stringify(this.authService.currentUser());
+  user:any = JSON.stringify(this.dataService.currentUser());
 
   items = [
     {
@@ -24,9 +25,9 @@ export class HeaderComponent implements OnInit {
       },
     },
   ];
-  constructor(public authService: AuthService) {
+  constructor(public dataService: DataService, private authService:AuthService) {
     effect(() => {
-      this.user =JSON.parse(JSON.stringify(this.authService.userDetails())).email;
+      this.user =JSON.parse(JSON.stringify(this.dataService.userDetails()))?.email;
     });
   }
 
@@ -34,6 +35,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
+    localStorage.removeItem('user')
     this.authService.signOut();
   }
 }

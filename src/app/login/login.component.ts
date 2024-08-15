@@ -10,6 +10,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 interface City {
   name: string;
   code: string;
@@ -39,7 +41,15 @@ export class LoginComponent {
   });
   passwordError = { state: false, msg: '' };
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private dataService: DataService,
+    private router: Router
+  ) {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['home']);
+    }
+  }
   login() {
     const cred = {
       email: this.loginForm.value.email || '',
@@ -49,6 +59,7 @@ export class LoginComponent {
       const resp = this.authService
         .loginWithIdPassword(cred)
         .then((resp) => {
+          this.dataService.setLoggedInUserData();
         })
         .catch((error) => {
           this.passwordError.state = true;

@@ -3,7 +3,8 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "dist/investment-tracker/browser",
+    "site": "house-expense-tracker",
+    "public": "dist/house-expense-tracker/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
