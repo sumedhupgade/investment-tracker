@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
   ];
   constructor(public dataService: DataService, private authService:AuthService) {
     effect(() => {
-      this.user =JSON.parse(JSON.stringify(this.dataService.userDetails()))?.email;
+      this.user =JSON.parse(JSON.stringify(this.dataService.userDetails()))?.displayName;
     });
   }
 
@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('user')
     this.authService.signOut();
   }
 }

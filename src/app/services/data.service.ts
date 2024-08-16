@@ -8,11 +8,10 @@ import {
 } from '@angular/core';
 import { collection, getDocs, getFirestore, query, updateDoc } from 'firebase/firestore';
 import { Auth, User, user } from '@angular/fire/auth';
-import { Subscription, single } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
 import { object } from '@angular/fire/database';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +37,8 @@ export class DataService {
         this.userInfo = aUser;
         this.checkIfUserIdExist(aUser);
         this.currentUser.set(this.userInfo);
+        console.log(this.userInfo);
+        
         localStorage.setItem('user', JSON.stringify(aUser));
       }
 
@@ -69,7 +70,7 @@ export class DataService {
     setDoc(doc(this.db, 'users', this.userInfo.uid), {
       mail: this.userInfo.email,
       name: this.userInfo.name == undefined ? '' : this.userInfo.name,
-      todo: { list: [] },
+      todo: [],
       monthly_expenses: {
         '2024-01': [],
       },
@@ -89,17 +90,6 @@ export class DataService {
   async updateData(data: object) {
     const docRef = doc(this.db, 'users', this.userInfo.uid);
     await updateDoc(docRef,data)
-    // const querySnapshot = await getDocs(collection(this.db, 'users'));
-    // querySnapshot.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   console.log(doc.id, ' => ', doc.data());
-    // });
-    // // const docSnap = await getDoc(collection(db, "users"));
-    // // if ((await docSnap).exists()) {
-    // // const unsub = onSnapshot(frankDocRef, (doc) => {
-    // //   console.log(doc);
-
-    // // });}
   }
 
   // Add todo

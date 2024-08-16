@@ -1,32 +1,61 @@
-.list-container{
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0 0 16px;
+  height: calc(100vh - 49px);
+  overflow: auto;
+
+  .parent-container {
+    padding: 16px 0px;
+    display: flex;
+    justify-content: center;
+    .card {
+      min-width: 300px;
+      width: 100%;
+      max-width: 500px;
+      padding: 16px !important;
+      height: max-content;
+    }
+  }
+
+  .list {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 16px 0 0 16px;
-    height: calc(100vh - 49px);
-    overflow: auto;
 
-    .parent-container{
-        padding: 0px;
-        padding-bottom: 16px;
-        display: flex;
-        gap: 16px;
-        .card{
-            max-width: calc((100% - 32px) / 3);
-            height: max-content;
-        }
+    .list-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid #dad9d8;
+      border-left: 4px solid #078d05;
+      background-color: #afe8ae;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &.urgent {
+        background-color: #ffdddd;
+        border-left: 4px solid red;
+      }
     }
+  }
 
-    .list{
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-
-        .list-item{
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            border: 1px solid #dad9d8;
-        }
+  .add-btn {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    &:hover {
+      background-color: #45a049;
     }
+  }
 }

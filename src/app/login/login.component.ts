@@ -75,4 +75,8 @@ export class LoginComponent {
   get loginFormControl() {
     return this.loginForm.controls;
   }
+
+  loginWithGoogle(){
+    this.authService.loginWithGoogle()
+  }
 }
