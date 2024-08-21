@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeng/resources/themes/lara-light-blue/theme.css";
 @import "primeng/resources/primeng.min.css";
+@import "primeicons/primeicons.css";
+@import url('./assets/scss/cards.scss');
 
 html {
   font-size: 14px;
@@ -19,6 +21,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f7f9;
 }
 
 .card {
@@ -105,4 +108,11 @@ body {
     inset 0px 0.5px 0.5px rgba(255, 255, 255, 0.5),
     0px 0px 0px 0.5px rgba(0, 0, 0, 0.12);
   color: #dfdedf;
+}
+
+.app-header{
+  .p-menu.p-menu-overlay{
+    width: 120px;
+    padding: 0px;
+  }
 }

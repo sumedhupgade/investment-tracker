@@ -9,16 +9,12 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { DataService } from '../services/data.service';
-interface City {
-  name: string;
-  code: string;
-}
+import { DataService } from '../../services/data.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-signup',
   standalone: true,
   imports: [
     FormsModule,
@@ -31,52 +27,48 @@ interface City {
     InputGroupAddonModule,
     DropdownModule,
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './signup.component.html',
+  styleUrl: './signup.component.scss'
 })
-export class LoginComponent {
-  loginForm = new FormGroup({
+export class SignupComponent {
+  signupForm = new FormGroup({
+    name: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
+    password: new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}'), Validators.minLength(8)]),
   });
+  passwordVisible = false;
   passwordError = { state: false, msg: '' };
-
+  _that = this;
   constructor(
     private authService: AuthService,
     private dataService: DataService,
-    private router: Router
+    private router: Router,
   ) {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['home']);
     }
   }
-  login() {
+
+  signUp() {
     const cred = {
-      email: this.loginForm.value.email || '',
-      password: this.loginForm.value.password || '',
+      email: this.signupForm.value.email || '',
+      user_name: this.signupForm.value.name || '',
+      password: this.signupForm.value.password || '',
     };
-    if (this.loginForm.status != 'INVALID') {
+    if (this.signupForm.status != 'INVALID') {
       const resp = this.authService
-        .loginWithIdPassword(cred)
-        .then((resp) => {
-          this.dataService.setLoggedInUserData();
+        .SignUpWithIdPassword(cred).then((resp) => {
+          console.log(resp);
+        }).catch(error => {
+          console.log(error);
+          this.passwordError = { state: true, msg: "Email already in use" };
         })
-        .catch((error) => {
-          this.passwordError.state = true;
-          if (error.message == 'Firebase: Error (auth/wrong-password).') {
-            this.passwordError.msg = 'Incorrect Password';
-          } else {
-            this.passwordError.msg = 'Something went wrong';
-          }
-        });
+        
     }
   }
 
-  get loginFormControl() {
-    return this.loginForm.controls;
+  get signupFormControl() {
+    return this.signupForm.controls;
   }
 
-  loginWithGoogle(){
-    this.authService.loginWithGoogle()
-  }
 }

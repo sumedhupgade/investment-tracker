@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { DataService } from '../services/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'header',
@@ -14,9 +15,16 @@ import { DataService } from '../services/data.service';
 })
 export class HeaderComponent implements OnInit {
 
-  user:any = JSON.stringify(this.dataService.currentUser());
+  user = 'https://ui-avatars.com/api/?name=User&rounded=true';
 
   items = [
+    {
+      label: 'Profile',
+      icon: 'pi pi-user',
+      command: () => {
+        this.router.navigate(['/profile']);
+      },
+    },
     {
       label: 'Logout',
       icon: 'pi pi-sign-out',
@@ -25,9 +33,9 @@ export class HeaderComponent implements OnInit {
       },
     },
   ];
-  constructor(public dataService: DataService, private authService:AuthService) {
+  constructor(public dataService: DataService, private authService:AuthService, private router : Router) {
     effect(() => {
-      this.user =JSON.parse(JSON.stringify(this.dataService.userDetails()))?.displayName;
+      this.user =this.dataService.userData().user_info.img;    
     });
   }
 

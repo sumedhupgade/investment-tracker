@@ -6,11 +6,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import {
-  Auth,
-  GoogleAuthProvider,
-  getRedirectResult,
-} from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider, getRedirectResult } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import {
   signInWithEmailAndPassword,
@@ -27,15 +23,16 @@ import { DataService } from './data.service';
 export class AuthService {
   private auth: Auth = inject(Auth);
   _that = this;
-  provider = new GoogleAuthProvider();
+  provider = new GoogleAuthProvider()
 
-  constructor(private router: Router, private dataService: DataService) {
-    if (localStorage.getItem('user') != undefined) {
+  constructor(private router: Router, private dataService: DataService) {    
+    if (localStorage.getItem('user') != undefined){
       this.dataService.setLoader(true);
-
-      this.dataService.setLoggedInUserData();
+      
+      this.dataService.setLoggedInUserData()
+      
     } else {
-      this.router.navigate(['']);
+      // this.router.navigate(['']);
     }
   }
 
@@ -47,34 +44,46 @@ export class AuthService {
     return signInWithEmailAndPassword(this.auth, cred.email, cred.password);
   }
 
-  loginWithGoogle() {
-    signInWithPopup(this.auth, this.provider)
-      .then((result: { user: any }) => {
-        localStorage.setItem('user', JSON.stringify(result.user));
-        this.dataService.setLoggedInUserData();
-        this.router.navigate(['/home']);
-      })
-      .catch((error: any) => {
-        console.error('Google Sign-In Error:', error);
-      });
+  loginWithGoogle(){
+    signInWithPopup(this.auth,this.provider)
+    .then((result: { user: any; }) => {
+      localStorage.setItem('user',JSON.stringify(result.user));
+      this.dataService.setLoggedInUserData()
+      this.router.navigate(['/home'])
+    })
+    .catch((error: any) => {
+      console.error('Google Sign-In Error:', error);
+    });
   }
 
-  SignUpWithIdPassword(email: string, password: string) {
-    createUserWithEmailAndPassword(this.auth, email, password)
+  SignUpWithIdPassword(cred: { email: string; password: string, user_name: string }) {
+    return new Promise((resolve, reject) => {
+    createUserWithEmailAndPassword(this.auth, cred.email, cred.password)
       .then((userCredential) => {
-        const user = userCredential.user;
+        let user = { ...userCredential.user, ...{name: cred.user_name}};
+        localStorage.setItem('user',JSON.stringify(user));
+        this.dataService.setNewUserConfig(user)
+        this.router.navigate(['/home']);
+        resolve(userCredential);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        reject(error);
       });
+    })
   }
+
 
   // Logout
   signOut() {
-    localStorage.removeItem('user');
+    localStorage.removeItem('user')
     localStorage.clear();
     this.auth.signOut();
-    this.router.navigate(['']);
+    setTimeout(() => {
+      this.router.navigate(['']);
+    }, 100);
   }
+
+  
 }

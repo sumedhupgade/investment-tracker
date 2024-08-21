@@ -1,3 +1,13 @@
 .card {
   width: 300px;
+  background-color: #eaf4f0;
+}
+
+@media screen and (max-width: 786px) {
+    .parent-container{
+        flex-direction: column;
+        .card{
+            width: 100%;
+        }
+    }
 }

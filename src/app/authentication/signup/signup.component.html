@@ -1,0 +1,74 @@
+<div class="flex justify-content-center align-items-center h-screen">
+  <div class="card auth-cards">
+    <div class="card-header">Signup</div>
+    <form
+      class="flex-column justify-content-center align-items-center gap-5 flex"
+      [formGroup]="signupForm"
+      (ngSubmit)="signUp()"
+    >
+      <div class="flex flex-column gap-1">
+        <p-floatLabel>
+          <input
+            id="email"
+            type="email"
+            required
+            pInputText
+            formControlName="email"
+          />
+          <label for="email">Email</label>
+        </p-floatLabel>
+        @if (signupFormControl.email.errors && (signupFormControl.email.dirty ||
+        signupFormControl.email.touched)) {
+        <div class="error">Email is required.</div>
+        }
+      </div>
+      <div class="flex flex-column gap-1">
+        <p-floatLabel>
+          <input
+            id="name"
+            type="text"
+            required
+            pInputText
+            formControlName="name"
+          />
+          <label for="name">Name</label>
+        </p-floatLabel>
+        @if (signupFormControl.name.errors && (signupFormControl.name.dirty ||
+        signupFormControl.name.touched)) {
+        <div class="error">Name is required.</div>
+        }
+      </div>
+      <div class="flex flex-column gap-1">
+        <p-floatLabel>
+          <input
+            id="password"
+            type="{{passwordVisible ? 'text' : 'password'}}"
+            pInputText
+            formControlName="password"
+            required
+          />
+          <label for="password">Password</label>
+          <i class="pi pi-eye eye" [ngClass]="{'pi-eye-slash': passwordVisible, 'pi-eye': !passwordVisible}" (click)="passwordVisible = !passwordVisible" style="font-size: 1rem"></i>
+        </p-floatLabel>
+       
+        @if ((signupFormControl.password.errors &&
+        (signupFormControl.password.dirty ||
+        signupFormControl.password.touched)) || passwordError.state) {
+        @if(passwordError.state){
+        <div class="error" [textContent]="passwordError.msg"></div>
+        }@else if(signupFormControl.password.errors?.['required']){
+        <div class="error">Password is required.</div>
+        }@else if (signupFormControl.password.errors?.['minlength'] &&
+        signupFormControl.password.touched) {
+        <div class="error">Password must be at least 8 characters long.</div>
+        } @else{
+        <div class="error">
+          Password must contain at least one uppercase letter, one lowercase
+          letter, one number, and one special character.
+        </div>
+        }}
+      </div>
+      <p-button [disabled]="signupForm.invalid" type="Submit" label="Submit" />
+    </form>
+  </div>
+</div>

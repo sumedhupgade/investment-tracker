@@ -37,12 +37,10 @@ export class DataService {
         this.userInfo = aUser;
         this.checkIfUserIdExist(aUser);
         this.currentUser.set(this.userInfo);
-        console.log(this.userInfo);
-        
         localStorage.setItem('user', JSON.stringify(aUser));
       }
-
-      if (this.router.url == '/') {
+      
+      if (this.router.url == '/' || this.router.url == '/signup' || this.router.url == '/reset-password') {
         this.router.navigate(['/home']);
       }
     });
@@ -60,16 +58,19 @@ export class DataService {
       });
     } else {
       this.setLoader(false);
-      this.setNewUserConfig();
+      this.setNewUserConfig(this.userInfo);
     }
   }
 
-  setNewUserConfig() {
+  setNewUserConfig(user: any) {
     this.setLoader(true);
     const year = new Date().getFullYear();
-    setDoc(doc(this.db, 'users', this.userInfo.uid), {
-      mail: this.userInfo.email,
-      name: this.userInfo.name == undefined ? '' : this.userInfo.name,
+    setDoc(doc(this.db, 'users', user?.uid), {
+      user_info: {
+        mail: user?.email,
+        name: user?.displayName == undefined ? user.name : user?.displayName,
+        img: 'https://ui-avatars.com/api/?name='+ (user?.displayName == undefined ? user.name : user?.displayName) +'&rounded=true'
+      },
       todo: [],
       monthly_expenses: {
         '2024-01': [],
@@ -92,7 +93,9 @@ export class DataService {
     await updateDoc(docRef,data)
   }
 
-  // Add todo
+  getUserName(){
+    return this.userInfo.name;
+  }
 
   
   setLoader(state: boolean) {

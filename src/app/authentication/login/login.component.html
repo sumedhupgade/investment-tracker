@@ -1,5 +1,5 @@
 <div class="flex justify-content-center align-items-center h-screen">
-  <div class="card">
+  <div class="card auth-cards">
     <div class="card-header">Login</div>
     <form
       class="flex-column justify-content-center align-items-center gap-5 flex"
@@ -26,12 +26,13 @@
         <p-floatLabel>
           <input
             id="password"
-            type="password"
+            type="{{passwordVisible ? 'text' : 'password'}}"
             pInputText
             formControlName="password"
             required
           />
           <label for="password">Password</label>
+          <i class="pi pi-eye eye" [ngClass]="{'pi-eye-slash': passwordVisible, 'pi-eye': !passwordVisible}" (click)="passwordVisible = !passwordVisible" style="font-size: 1rem"></i>
         </p-floatLabel>
         @if ((loginFormControl.password.errors &&
         (loginFormControl.password.dirty || loginFormControl.password.touched))
@@ -44,8 +45,9 @@
       <p-button [disabled]="loginForm.invalid" type="Submit" label="Submit" />
     </form>
 
-    <div class="flex align-items-center justify-content-center mt-3">
-      <img src="img/google.png" (click)="loginWithGoogle()" class="google" alt="google login">
+    <div class="flex sm:d-none align-items-center justify-content-center mt-3">
+      <!-- <img src="img/google.png" (click)="loginWithGoogle()" class="google" alt="google login"> -->
+       <a [routerLink]="'/signup'">Signup</a>
     </div>
   </div>
 </div>

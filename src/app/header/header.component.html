@@ -1,7 +1,7 @@
 
 <div class="app-header shadow-1">
-    <span class="title">Family Management</span>
+    <span class="title"  [routerLink]="'/signup'">Family Management</span>
     <p-menu #menu [model]="items" [popup]="true" />
     
-    <div>Welcome! <u (click)="menu.toggle($event)">{{user}}</u></div>
+    <img alt="User avatar" height="30" width="30" src="{{user}}" (click)="menu.toggle($event)">
 </div>
