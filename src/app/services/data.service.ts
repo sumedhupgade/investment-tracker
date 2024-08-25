@@ -67,7 +67,7 @@ export class DataService {
     const year = new Date().getFullYear();
     setDoc(doc(this.db, 'users', user?.uid), {
       user_info: {
-        mail: user?.email,
+        email: user?.email,
         name: user?.displayName == undefined ? user.name : user?.displayName,
         img: 'https://ui-avatars.com/api/?name='+ (user?.displayName == undefined ? user.name : user?.displayName) +'&rounded=true'
       },
